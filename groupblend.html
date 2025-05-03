@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-CA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GroupBlend</title>
+    <style>
+        @import url("https://fonts.google.com/css2family=Poppins");
+        * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+        }
+
+        body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: url("background.jpg") no-repeat;
+        background-size: cover;
+        }
+
+        header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 20px 100px;
+        /* background: #3366ff;*/
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 99;
+        }
+
+        .logo {
+        font-size: 2em;
+        color: #fff;
+        -webkit-user-select: none;
+            -moz-user-select: none;
+                user-select: none;
+        }
+
+        .blend1 {
+        color: goldenrod;
+        }
+
+        .blend2 {
+        color: #162938;
+        }
+
+        .navigation a {
+        position: relative;
+        font-size: 1.1em;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+        margin-left: 40px;
+        }
+
+        .navigation a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -6px;
+        width: 100%;
+        height: 3px;
+        background: #fff;
+        border-radius: 5px;
+        transform-origin: right;
+        transform: scale(0);
+        transition: transform 0.5s;
+        }
+
+        .navigation a:hover:after {
+        transform-origin: left;
+        transform: scale(1);
+        }
+
+        .navigation .btnlogin-popup {
+        width: 130px;
+        height: 50px;
+        background: transparent;
+        border: 2px solid #fff;
+        outline: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1.1em;
+        color: #fff;
+        font-weight: 500;
+        margin-left: 40px;
+        transition: 0.5s;
+        }
+
+        .navigation .btnlogin-popup:hover {
+        background: #fff;
+        color: #162938;
+        }
+
+        .navigation .btnreg-popup {
+        width: 130px;
+        height: 50px;
+        background: transparent;
+        border: 2px solid #fff;
+        outline: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1.1em;
+        color: #fff;
+        font-weight: 500;
+        margin-left: 40px;
+        transition: 0.5s;
+        }
+
+        .navigation .btnreg-popup:hover {
+        background: #fff;
+        color: #162938;
+        }
+
+        .container {
+        position: relative;
+        text-align: center;
+        margin-top: 100px;
+        right: 8%;
+        }
+
+        h1 {
+        font-size: 45px;
+        margin-bottom: 20px;
+        color: white;
+        font-family: "Poppins", sans-serif;
+        }
+
+        .blend1 {
+        font-family: "Poppins", sans-serif;
+        color: goldenrod;
+        font-weight: 800;
+        }
+
+        .blend2 {
+        font-family: "Poppins", sans-serif;
+        color: #fff;
+        font-weight: 800;
+        }
+
+        .group {
+        color: goldenrod;
+        }
+
+        .exc {
+        color: #162938;
+        }
+
+        .logo1 {
+        background-color: #162938;
+        border-radius: 50%;
+        width: 220px;
+        height: 220px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 100px;
+        color: #fff;
+        animation: bounceRotateAnimation 2s ease-in-out;
+        animation-fill-mode: forwards;
+        font-family: "Poppins", sans-serif;
+        font-weight: 700;
+        }
+
+        .wrapper {
+        position: relative;
+        width: 400px;
+        height: 440px;
+        background: transparent;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        border-radius: 20px;
+        -webkit-backdrop-filter: blur(20px);
+                backdrop-filter: blur(20px);
+        box-shadow: 0, 0, 30px rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        transform: scale(0);
+        transition: transform 0.5s ease, height 0.2s ease;
+        }
+
+        .wrapper.active-popup {
+        transform: scale(1);
+        }
+
+        .wrapper.active {
+        top: 20px;
+        height: 580px;
+        }
+
+        .wrapper .form-box {
+        width: 100%;
+        padding: 40px;
+        }
+
+        .wrapper .form-box.login {
+        transition: transform 0.18s ease;
+        transform: translateX(0);
+        }
+
+        .wrapper.active .form-box.login {
+        transition: none;
+        transform: translateX(-400px);
+        }
+
+        .wrapper .form-box.register {
+        position: absolute;
+        transition: none;
+        transform: translate(400px);
+        }
+
+        .wrapper.active .form-box.register {
+        transition: transform 0.18s ease;
+        transform: translateX(0);
+        }
+
+        .wrapper .icon-close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 45px;
+        height: 45px;
+        background: #162938;
+        font-size: 2em;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom-left-radius: 20px;
+        cursor: pointer;
+        z-index: 1;
+        }
+
+        .form-box h2 {
+        font-size: 2em;
+        color: #162938;
+        text-align: center;
+        }
+
+        .input-box {
+        position: relative;
+        width: 100%;
+        height: 50px;
+        border-bottom: 2px solid #162938;
+        margin: 30px 0;
+        }
+
+        .input-box label {
+        position: absolute;
+        top: 50%;
+        left: 5px;
+        transform: translateY(-50%);
+        font-size: 1em;
+        color: #162938;
+        font-weight: 500;
+        pointer-events: none;
+        transition: 0.5s;
+        }
+
+        .input-box input:focus ~ label,
+        .input-box input:valid ~ label {
+        top: -5px;
+        }
+
+        .input-box input {
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 1em;
+        color: #162938;
+        font-weight: 600;
+        padding: 0 35px 0 5px;
+        }
+
+        .input-box .icon {
+        position: absolute;
+        right: 8px;
+        font-size: 1.2em;
+        color: #162938;
+        line-height: 57px;
+        }
+
+        .remember-forgot {
+        font-size: 0.9em;
+        color: #162938;
+        font-weight: 500;
+        margin: -15px 0 15px;
+        display: flex;
+        justify-content: space-between;
+        }
+
+        .remember-forgot label input {
+        accent-color: #162938;
+        margin-right: 3px;
+        }
+
+        .remember-forgot a {
+        color: #162938;
+        text-decoration: none;
+        }
+
+        .remember-forgot a:hover {
+        text-decoration: underline;
+        }
+
+        .btn {
+        width: 100%;
+        height: 45px;
+        background: #162938;
+        border: none;
+        outline: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1em;
+        color: #fff;
+        font-weight: 500;
+        }
+
+        .login-register {
+        font-size: 0.9em;
+        color: #162938;
+        text-align: center;
+        font-weight: 500;
+        margin: 25px 0 10px;
+        }
+
+        .login-register p a {
+        color: #162938;
+        text-decoration: none;
+        font-weight: 600;
+        }
+
+        .login-register p a:hover {
+        text-decoration: underline;
+        }
+
+        footer {
+        color: #fff;
+        bottom: 1px;
+        padding: 3px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 400;
+        position: fixed;
+        margin-bottom: 0;
+        background-color: #162938;
+        width: 100%;
+        }
+
+        @keyframes bounceRotateAnimation {
+        0% {
+            transform: translateY(-100px) rotate(0deg);
+        }
+        50% {
+            transform: translateY(0) rotate(0deg);
+        }
+        100% {
+            transform: translateY(0) rotate(360deg);
+        }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h2 class="logo"><span class="group">Group</span>Blend</h2>
+        <nav class="navigation">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">contact</a>
+            <button class="btnlogin-popup">Login</button>
+            <button class="btnreg-popup">Register</button>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Welcome to <span class="blend1">Group</span><span class="blend2">Blend<span class="exc">!!</span></span></h1><br>
+        <div class="logo1">
+          <span class="logo-text"><span class="group">G</span>B</span>
+        </div>  
+    </div> 
+
+    <div class="wrapper">
+        <span class="icon-close">&times;</span>
+
+        <div class="form-box login">
+            <h2>Login</h2>
+            <form action="#">
+                <div class="input-box">
+                    <span class="icon">
+                        <ion-icon name="mail"></ion-icon>
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="27" height="35" viewBox="0 0 1016 500">
+                            <image id="Mail" width="1016" height="756" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAmCAYAAABpuqMCAAAHOElEQVRYhdWZf8ieVRnHv99zzv28c2KkBBaDfkL+IZqQzBlYjKKypCh0/UCdsQxKTCmzWLCS/TFMa6FRYWn+iGwLpcBfIYzShJyTNaGghCgUXEUbYba9z32f64rr3D+e+8fzPO+zqRu7xs377tz3Oef6XNd1rnOd8zJbWvUggLMA5DhxJQB4lmFp1QsEXn8Cg9TyHwfgn4PmE1P+EWaprcATgO4BuGbw8jgIqVDofyFeSN0IwPe1mAkDIFPVa5EGYWrg4JNjINRkWhEPKTI4Lzd66lRV3KClEgJrHbmfijVOdfaHr5YYBAUQQvIlyHgVPPXe4OP1s/TuNerjAJ5pIZ1O8g8E3shj7BmNPgHE8WpoHMGH8U4/yj+pXaf8vf2fHgz3qso6QF4o3ZvaXge6JwGczqoDhWlRvXokAMSlX+hy+OzwTh+KS1Qm6qrK+wG9ew4MzgR4qMhHa1XcQTZAlrr5tAElPBBOHVLovoJQyftqK1TNEwjZYYTR8j3ex0tU2yD6WQCPAnzzHBjNnVOo+OeL8dK5qnipBbSmAjqtmVwnUC8nBGuPQyeWKcPJ3wn1l7ZDS1W+AOjtZGpbPQeGybUhW7ZXf83Hq9aK8n/oAu0GcGplx9JPBiQ+/TwaiGmGIPljgBvbbar6JUB/UIGYxDkw1sHB+QiyANT/CdGd3yt13ganHQ81CljfBaDmQaR1Qt4DcFO7QwWyfVavqTDNi2D6iznlGUR3Xg/oLXCyxzzEakMrH0kzOzGoUEFNJp8P0cxsIJd28ES/DMh2lB4b9JgLU3vHuSL9DnIvJAGN+0CFuNcURYYYA2L0ACPUxcoQBC0D1cmitPtgvgaWvIucgJiBijzbHIvwndbanSlTYWrxoQCdVLkSe6F8V3d2fStd3C3iT4nRgCwPRSgKqEGx7Fvroa1nKLwN4OUTEEGRh80q2bYaZJ5XMBfGLOkUMBitVcHTgK4DsFx/472cEUaHngLklHZSOLIt1kBw5QTEPDL6isTRtlno02Q2TKN/y6ylPAnoeTWQpU3n9IyQLT9FJ6sHYxwRSLnu8jy7RmJ2cwdkBa9gRRg0O1ll6GbwfRWQNEDmoSz/PYClwRgzpesRmyMfL31RY3ZLOdfEw4v4ebGNgVW4dRfhPlU5G8Cf0WxyPIuklT6jwRgDGYTWi1KETSr+VjImD5WPJSJdCGfxXU5d9xFn2+UfAX2+R/4O0j3Rbaptwqpa4PaOR0pjHHCMd2SjwwiZlTJ52rztsSSk06v+o4BJIKyeKjmUIfArgO8dfA+eS/KxOgs1JWtpgG0Arh10Ad4Ep79JEWBjp30LzbOILAjTHs2VVqLeD+IjzSe1wpNQvADALgAnNy+d3AjK17rc7dDle6Dut6kpurRvpSfPSh1W2GsWg7FN0OWI0SHPl2z/2EEnH2tUsEmiv6DIs3O0A8T1dPosqTtI7AFxfc9Im4rxaJ12FX03nD5qm7UUAWLnmlj+XFHNQcscsQO08+Nfei8bOpWs8NMAfqfi9+Xj0YU9+72BxAYA7+yB3ADlHbRUL+5DnUiivg8+7rJqgS7Cjw6BPvYiZCgLw5jyISt+4bP8o93FqJ8Ryr3qi+qYmz0S8/BBUF8cDDIB2QzlN+3XYFUG9WGN/qL2XM7Jeh/yXVYeGVBZicyXuTCdaCZ3ALy4a510SLpz0Ev4a6i+HYqtKG95/laWQ/ihCO3gt60zR9rH9EFAL24D+VCs914fSSfMFbyCebczgvJWpoxU3gWkUGlUUMVVJG5PVXKVe2OtXvnf/arcAuiWdE3UPpXO1us+QD8BmOHqvQsfIPEAgItW6j7bM02ly58AuLyGSKDCawD5/mBYPdKarFyHzT+lGWmnqlzWrZL5YYD3oS45ZtRrQxiLe4vZGMzi3wNwRfu1lRuxCLeUZ5euUi4UlddWAKqPA+axaelW8dNYhI291o8T/JmL3o71U9N0/w4g2M6e8rqTm+Dkqgmk3Q24rzrqrcELHHx1yK5DEmDI4UaHy8wzz0OMEFcfEUqozudUxCLcXeTZ53pKf4pOb7OUbfdpgGYzYUg9EIvMDPcN+HhdZ9FF93VPfGtptIwQTH2XIKTtcitVnIChSOFQWz7dt9ResNLEdY7uZVdU721OyeCdGQw/QvRXd8LKyZWgftf0JLG/PYZ3IXye1RUSwMdBrPEhfrtjKsUNUL9Vq5iVdASb1LU9s7eKsSmvpr4Ydrc145h2mt0kDoK4sP7A+bgO5EEAJ5GoD4z/tj9p7CNwdtXwEqgn99LvVii3pMVZWXeOKq+QTPKWq66xlHodwJsm0MmLhwyoavlLPwG0QVRVr1Zgi1BTjOOYgKDj3WjrJ4UqblboZQCKUrv0/qR2r5n7jEIfVurPAZ5pfxF4edd8Ry/1rJog9CEA9xPcMG3AmTAEzyf4r8GL4yoJ7cAsDVx5OzlVZrUfbxlcPlZyqnnmOQCvbTbXE1McgOf+D4IgKpLjqaAuAAAAAElFTkSuQmCC"/>
+                          </svg>     
+                    </span>
+                    <input type="email" required> 
+                    <label>Email</label>
+                </div>                
+                <div class="input-box">
+                    <span class="icon">
+                        <ion-icon name="lock-closed"></ion-icon>
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="27.3" height="35" viewBox="0 0 506 400">
+                            <image id="lock" x="104" y="80" width="340" height="478" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAwCAYAAAB0WahSAAABqElEQVRYhe2Yu0oDQRRAjzEq8dH4IkGsLFQsRASxEGzsxMIvEPwAsfQT7G20tBAEwcJGBMGArZ2gvY34KIKgRiFGluzCOvdOdpPVNcUcuM3duTNnl2FmdtqIzxSwAiwC00AvUDWqg/6egSvgAjgGHhoYx8oIcOAP2ky8Atu2zuOyBLwkkAjHNTDajMSC0lnSeAT6xUh16APKfyBS9eeOICsyNXaALpGt4X3iIlDyJ2d4wgeTNw8sAwVRDbPAGrAvnhgMK28RxKZobScH7Cl9eHFnrQqxoRR6sSVaxuNE6cuLuajqQ6Uo1htYKCj9ia+bUWoHRAbORSY+98CN0jofJaJN4JLINMaT0rojSuRLZKBTZBpDq69EifwLTsTEiZi0tMi7yNTOJEkoK7U/1qbw4jUOdPubnskYMGMRr0ewG2ur9QQwCdwGiR7gVNkL0opLYIiE59HfiqJ3qPmwLMGpkrHsLWnz5ol8toBIxS1oJk7ExImYOBETJ2LiREyciIkTMXEiJi0lYrvGTJNsq5zic+3AIDAvHqXLUXBrvAus+pe0aeL93J0B698GwNcAsL4ZJAAAAABJRU5ErkJggg=="/>
+                          </svg>
+                    </span>
+                    <input type="password" required>
+                    <label>Password</label>
+                </div>
+                <div class="remember-forgot">
+                    <label><input type="checkbox">Remember me</label>
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <div class="login-register">
+                    <p>Don't have an accounnt?
+                        <a href="#" class="register-link">Register</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-box register">
+            <h2>Register</h2>
+            <form action="#">
+                <div class="input-box">
+                    <span class="icon">
+                        <ion-icon name="contact"></ion-icon>
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28" height="33" viewBox="0 0 576 594">
+                            <image id="user" x="50" y="19" width="462" height="552" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAA3CAYAAABzYHhkAAAC00lEQVRogdWayWsUQRSHv/S4QESjBImKMYgedETNKO4ixpMIHoJ4dLmoCCI5efCkV2/+BYLizQXUo4qgINEc3HBHxRWRoIJKNKLysBom/apnenqqero/+BGo6X7vN9VVXVVv0oYbpgD9wCZgMdANTAT+AJ+AR8AgcB546ChnU5SAo8Aw8DehzgJLWml6DfCsAcNRHVIRM2CbxUgancjS9GZHpkNlYn6mJbELDahMjrnqybhoji/T6yzJXOq0yuiIS56Ni6a5Nt1hFhNbMpfaqzLHENibFasAV6tsLTbU+GwMSY33qhY/zHVtfIZq8UPiPEmNl1SLH8a7Nv5Ntfjhi2vjz1WLH965Nj6oWvzwwEfUNxm8x9eqrA44bEnkUq98PcZJwC+PxneojA7ZZ0noQvd8mg656Nj0KDBLZfHEDYuBtFqdlemQM00afg+sUFEz4iDw1WKqnk4BU1tlOmQ6cMQUfWoZ/gycBNarCClIuseWQ/JS83fEVKRG1FX/Cz1SyZoPTDYTT5bx+8Ad83SijDPljnbgI3C3kaU/jj3ANeBnpPck8P6YexphN/DS8paRyX8gTcAFwG3L447qMrBI3V2feQnPsPJ+ryQN2muGgS1QnI6boVSPMnDM9GpcLJvUvIiOcZnpb83yngZ5xNeBIeCDub8LWG7KG30p48pBfXZVTMUVy7fNi4aUW0Nfjk2H6leuzUSwXZwnqa1vpQCmQ22k6ui2U/V/ftlV7eyJ5ZvlVfJmCdrMD02vC9TjQlmGyjLVnH9WBmZxKBoVMd5TQOPdQYYFTZd0FdV4hxjvVM35pz1oYifYSiYE5uhUNEpi/HsBjY+K8ReqOf8MB+ZUXTQeY2rSRdlghdoSdvQty4d51dPq0dFTIOPl6LCWM+dvy4V50ta4ubjQVK7yZvhmdPsdVzuU/wLabmqBUnSX1VWulSA+Cf38MGVoqTmeAy6MSQr8A/ihbbVN26VLAAAAAElFTkSuQmCC"/>
+                    </svg>
+                    </span>
+                    <input type="text" required> 
+                    <label>Username</label>
+                </div>       
+                <div class="input-box">
+                    <span class="icon">
+                        <ion-icon name="mail"></ion-icon>
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="27" height="35" viewBox="0 0 1016 500">
+                            <image id="Mail" width="1016" height="756" xlink:href="data:img/png;base64,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"/>
+                          </svg>     
+                    </span>
+                    <input type="email" required> 
+                    <label>Email</label>
+                </div>         
+                <div class="input-box">
+                    <span class="icon">
+                        <ion-icon name="lock-closed"></ion-icon>
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="27.3" height="35" viewBox="0 0 506 400">
+                            <image id="lock" x="104" y="80" width="340" height="478" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAwCAYAAAB0WahSAAABqElEQVRYhe2Yu0oDQRRAjzEq8dH4IkGsLFQsRASxEGzsxMIvEPwAsfQT7G20tBAEwcJGBMGArZ2gvY34KIKgRiFGluzCOvdOdpPVNcUcuM3duTNnl2FmdtqIzxSwAiwC00AvUDWqg/6egSvgAjgGHhoYx8oIcOAP2ky8Atu2zuOyBLwkkAjHNTDajMSC0lnSeAT6xUh16APKfyBS9eeOICsyNXaALpGt4X3iIlDyJ2d4wgeTNw8sAwVRDbPAGrAvnhgMK28RxKZobScH7Cl9eHFnrQqxoRR6sSVaxuNE6cuLuajqQ6Uo1htYKCj9ia+bUWoHRAbORSY+98CN0jofJaJN4JLINMaT0rojSuRLZKBTZBpDq69EifwLTsTEiZi0tMi7yNTOJEkoK7U/1qbw4jUOdPubnskYMGMRr0ewG2ur9QQwCdwGiR7gVNkL0opLYIiE59HfiqJ3qPmwLMGpkrHsLWnz5ol8toBIxS1oJk7ExImYOBETJ2LiREyciIkTMXEiJi0lYrvGTJNsq5zic+3AIDAvHqXLUXBrvAus+pe0aeL93J0B698GwNcAsL4ZJAAAAABJRU5ErkJggg=="/>
+                          </svg>
+                    </span>
+                    <input type="password" id="password" required>
+                    <label>Password</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon">
+                        <ion-icon name="lock-closed"></ion-icon>
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="27.3" height="35" viewBox="0 0 506 400">
+                            <image id="lock" x="104" y="80" width="340" height="478" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAwCAYAAAB0WahSAAABqElEQVRYhe2Yu0oDQRRAjzEq8dH4IkGsLFQsRASxEGzsxMIvEPwAsfQT7G20tBAEwcJGBMGArZ2gvY34KIKgRiFGluzCOvdOdpPVNcUcuM3duTNnl2FmdtqIzxSwAiwC00AvUDWqg/6egSvgAjgGHhoYx8oIcOAP2ky8Atu2zuOyBLwkkAjHNTDajMSC0lnSeAT6xUh16APKfyBS9eeOICsyNXaALpGt4X3iIlDyJ2d4wgeTNw8sAwVRDbPAGrAvnhgMK28RxKZobScH7Cl9eHFnrQqxoRR6sSVaxuNE6cuLuajqQ6Uo1htYKCj9ia+bUWoHRAbORSY+98CN0jofJaJN4JLINMaT0rojSuRLZKBTZBpDq69EifwLTsTEiZi0tMi7yNTOJEkoK7U/1qbw4jUOdPubnskYMGMRr0ewG2ur9QQwCdwGiR7gVNkL0opLYIiE59HfiqJ3qPmwLMGpkrHsLWnz5ol8toBIxS1oJk7ExImYOBETJ2LiREyciIkTMXEiJi0lYrvGTJNsq5zic+3AIDAvHqXLUXBrvAus+pe0aeL93J0B698GwNcAsL4ZJAAAAABJRU5ErkJggg=="/>
+                          </svg>
+                    </span>
+                    <input type="password" id="confirmPassword" required>
+                    <label>Confirm Password</label>
+                </div>
+                <div id="passwordMismatchError" style="display: none; color: red; font-family:'Poppins', sans-serif">Passwords do not match!!</div><br>
+                <div class="remember-forgot">
+                    <label><input type="checkbox">I agree to the <a href="#" style=" text-decoration: underline;">terms & conditions</a></label>
+                </div>
+                <button type="submit" id="btn" class="btn">Register</button>
+                <div class="login-register">
+                    <p>Already have an accounnt?
+                        <a href="#" class="login-link">Login</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const wrapper = document.querySelector('.wrapper');
+        const loginLink = document.querySelector('.login-link');
+        const registerLink = document.querySelector('.register-link');
+        const btnLogPopup = document.querySelector('.btnlogin-popup');
+        const btnRegPopup = document.querySelector('.btnreg-popup');
+        const iconClose = document.querySelector('.icon-close');
+        
+        registerLink.addEventListener('click', ()=>{
+            wrapper.classList.add('active');
+        });
+
+        loginLink.addEventListener('click', ()=>{
+            wrapper.classList.remove('active');
+        });
+
+        btnLogPopup.addEventListener('click', ()=>{
+            wrapper.classList.add('active-popup');
+            wrapper.classList.remove('active');
+        });
+
+        btnRegPopup.addEventListener('click', ()=>{
+            wrapper.classList.add('active-popup');
+            wrapper.classList.add('active');
+        });
+
+        iconClose.addEventListener('click', ()=>{
+            wrapper.classList.remove('active-popup');
+        });
+
+        // Going to the next page
+        document.getElementById("btn").addEventListener("click", ()=>{
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+            // Check if the password and the confirmed password match
+            if (password !== confirmPassword) {
+            document.getElementById("passwordMismatchError").style.display = "block";
+            return;
+            }
+        });
+</script>
+    
+</body>
+<footer>By Joshua Ugwu</footer>
+</html>
